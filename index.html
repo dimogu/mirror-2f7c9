@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>阅读 App 每日可用书源</title>
+<style>
+  :root { --bg:#0f1115; --card:#171a21; --fg:#e8ecf1; --dim:#8b95a5; --acc:#4a9eff; --ok:#2ec27e; }
+  @media (prefers-color-scheme: light) {
+    :root { --bg:#f6f8fa; --card:#fff; --fg:#1a2029; --dim:#5b6572; --acc:#0b6fd4; --ok:#1a7f4f; }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg);
+    font:15px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif; }
+  .wrap { max-width:900px; margin:0 auto; padding:40px 20px 60px; }
+  h1 { font-size:26px; margin:0 0 6px; letter-spacing:-.3px; }
+  .sub { color:var(--dim); font-size:14px; margin-bottom:28px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:12px; margin-bottom:28px; }
+  .card { background:var(--card); border-radius:12px; padding:16px 18px; border:1px solid rgba(128,128,128,.14); }
+  .card .n { font-size:26px; font-weight:600; letter-spacing:-.5px; }
+  .card .l { font-size:13px; color:var(--dim); }
+  .card.ok .n { color:var(--ok); }
+  .box { background:var(--card); border-radius:12px; padding:18px; border:1px solid rgba(128,128,128,.14); margin-bottom:20px; }
+  .box h2 { font-size:15px; margin:0 0 12px; }
+  code { display:block; background:rgba(128,128,128,.12); padding:11px 13px; border-radius:8px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12.5px; word-break:break-all;
+    margin:8px 0; user-select:all; }
+  a { color:var(--acc); text-decoration:none; }
+  a:hover { text-decoration:underline; }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th { text-align:left; color:var(--dim); font-weight:500; padding:8px 10px; border-bottom:1px solid rgba(128,128,128,.2); }
+  td { padding:8px 10px; border-bottom:1px solid rgba(128,128,128,.1); vertical-align:top; }
+  td.u { color:var(--dim); word-break:break-all; max-width:280px; }
+  td.g { color:var(--dim); font-size:12px; }
+  .hint { font-size:13px; color:var(--dim); }
+  .warn { margin-top:10px; padding:9px 12px; border-radius:8px; font-size:13px;
+    background:rgba(220,60,60,.12); color:#e05b5b; border:1px solid rgba(220,60,60,.3); }
+  .row { display:flex; gap:8px; align-items:center; }
+  .row code { flex:1; margin:8px 0; }
+  .row button { margin:8px 0; padding:8px 14px; border-radius:8px; border:1px solid rgba(128,128,128,.3);
+    background:transparent; color:var(--acc); font-size:13px; font-family:inherit; cursor:pointer; white-space:nowrap; }
+  .row button:active { background:rgba(128,128,128,.16); }
+  footer { margin-top:32px; font-size:12.5px; color:var(--dim); border-top:1px solid rgba(128,128,128,.15); padding-top:16px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>阅读 App 每日可用书源</h1>
+  <div class="sub">自动抓取最近 7 天新分享的书源 → 剔除违规/非文本内容 → 逐条检测可用性<br>
+    每天北京时间 <b>04:30</b> 自动更新（06:30 兜底一次）｜ 最近一次更新：2026-11-12 10:28（刚刚）｜ 近 7 天新分享 33 条<br>
+    <span class="hint">状态库仅保留最近 3 天内有效数据（本轮清理 385 条）｜
+      反爬站点 94 个：站点在线但可能需在 App 内配置 UA/Cookie</span></div>
+  
+
+  <div class="cards">
+    <div class="card ok"><div class="n">605</div><div class="l">本轮实测通过并输出</div></div>
+    <div class="card"><div class="n">250</div><div class="l">搜索接口已验证</div></div>
+    <div class="card"><div class="n">249</div><div class="l">留库观察（未输出）</div></div>
+    <div class="card"><div class="n">10807</div><div class="l">累计拦截次数</div></div>
+  </div>
+
+  <div class="box">
+    <h2>一键导入（推荐）</h2>
+    <div class="hint">阅读 App → 我的 → 书源管理 → 右上角 ⋮ → 网络导入 → 粘贴下面任一链接</div>
+    <div class="hint" style="margin-top:10px">主线路（跟随仓库实时内容，约 10 分钟内生效）：</div>
+    <div class="row"><code id="url-main">https://dimogu.github.io/mirror-2f7c9/dist/bookSource.json</code><button type="button" onclick="copyUrl('url-main', this)">复制</button></div>
+    <div class="hint" style="margin-top:10px">备用线路（jsDelivr，下载更快，但边缘节点最长会缓存约 12 小时，可能滞后一版）：</div>
+    <div class="row"><code id="url-backup">https://cdn.jsdelivr.net/gh/dimogu/mirror-2f7c9/dist/bookSource.json</code><button type="button" onclick="copyUrl('url-backup', this)">复制</button></div>
+  </div>
+
+  <div class="box">
+    <h2>书源列表（前 80 条）</h2>
+    <table>
+      <thead><tr><th>名称</th><th>域名</th><th>分组</th></tr></thead>
+      <tbody><tr><td>⚡📂森林</td><td class='u'>http://23.224.242.55/</td><td class='g'>快速书源 ⚡,通常书源 📂,✅每日校验</td></tr>
+<tr><td>⚡📂饿狼小说</td><td class='u'>http://m.elkoparts.info</td><td class='g'>快速书源 ⚡,通常书源 📂,✅每日校验</td></tr>
+<tr><td>⚡📂就爱读小说网</td><td class='u'>https://m.95kxs.net</td><td class='g'>快速书源 ⚡,通常书源 📂,✅每日校验</td></tr>
+<tr><td>📂啃书小说</td><td class='u'>http://www.kenshuzw.la</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>露露书🎃</td><td class='u'>https://m.lulushu18.com#🎃</td><td class='g'>✅每日校验</td></tr>
+<tr><td>⚡📂爱久久小说</td><td class='u'>https://m.ijjxsxzw.com/</td><td class='g'>快速书源 ⚡,通常书源 📂,✅每日校验</td></tr>
+<tr><td>免费小说</td><td class='u'>https://www.quanwenyuedu.io#77</td><td class='g'>✅每日校验</td></tr>
+<tr><td>📂琦书网啦（魔法）</td><td class='u'>https://www.7shuwu.org</td><td class='g'>通常书源 📂,✅每日校验</td></tr>
+<tr><td>全本小说（优）</td><td class='u'>https://www.qb5.io</td><td class='g'>小说 书源,✅每日校验</td></tr>
+<tr><td>📂十八书屋</td><td class='u'>https://www.shibashuwu.net</td><td class='g'>通常书源 📂,✅每日校验</td></tr>
+<tr><td>⚡📂贝壳读书</td><td class='u'>https://www.beikeyuedu.com/</td><td class='g'>快速书源 ⚡,通常书源 📂,✅每日校验</td></tr>
+<tr><td>🎃阳光中文网🎃</td><td class='u'>http://www.ygzww.com#🎃</td><td class='g'>✅每日校验</td></tr>
+<tr><td>名熹小说</td><td class='u'>http://www.tjsyjjzs.com/</td><td class='g'>H,✅每日校验</td></tr>
+<tr><td>🎃星星小说🎃</td><td class='u'>http://www.xxtxt.com#🎃</td><td class='g'>✅每日校验</td></tr>
+<tr><td>📂基友书屋</td><td class='u'>https://www.gaysay.com#成功</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>📂阅读书屋</td><td class='u'>https://www.vikbook.com/</td><td class='g'>小说,✅每日校验</td></tr>
+<tr><td>📂恩京书房</td><td class='u'>https://www.enjing.net</td><td class='g'>通常书源 📂,✅每日校验</td></tr>
+<tr><td>📂东滩小说</td><td class='u'>http://www.dongtanxs.com##</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>露露书</td><td class='u'>https://m.lulushu18.com/</td><td class='g'>✅每日校验</td></tr>
+<tr><td>恩京书房</td><td class='u'>https://www.enjing.net#🎃</td><td class='g'>✅每日校验</td></tr>
+<tr><td>⚡📂笔趣阁</td><td class='u'>https://www.8tsw.com</td><td class='g'>快速书源 ⚡,通常书源 📂,✅每日校验</td></tr>
+<tr><td>红人小说</td><td class='u'>https://www.hongrenxs.com/</td><td class='g'>✅每日校验</td></tr>
+<tr><td>📂️总裁</td><td class='u'>https://www.yuedupark.com</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>📂偶遇小说</td><td class='u'>https://m.oue8.com</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>⚡📂逆鳞小说</td><td class='u'>https://fu44.pw</td><td class='g'>快速书源 ⚡,通常书源 📂,✅每日校验</td></tr>
+<tr><td>无极书院（优+）</td><td class='u'>http://m.wjzxchina.com</td><td class='g'>小说 书源,✅每日校验</td></tr>
+<tr><td>📂精华书阁</td><td class='u'>https://m.jhsssd.com</td><td class='g'>通常书源 📂,✅每日校验</td></tr>
+<tr><td>📂完本小说</td><td class='u'>https://www.wanbenshuwu.com</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>🎃滋滋读书🎃</td><td class='u'>http://www.zzdushu.com#🎃</td><td class='g'>✅每日校验</td></tr>
+<tr><td>天天小说（优+++）</td><td class='u'>https://ttks.tw/</td><td class='g'>小说 书源,✅每日校验</td></tr>
+<tr><td>⚡📂冷冷文学</td><td class='u'>https://touch.8leng.com/</td><td class='g'>快速书源 ⚡,通常书源 📂,✅每日校验</td></tr>
+<tr><td>得奇小说（优+++）</td><td class='u'>https://www.deqixss.com/</td><td class='g'>小说 书源,✅每日校验</td></tr>
+<tr><td>久久小说（优++）</td><td class='u'>https://www.aijjxs.com</td><td class='g'>小说 书源,✅每日校验</td></tr>
+<tr><td>书坊文学网🎃</td><td class='u'>http://www.sfwx.com#🎃</td><td class='g'>✅每日校验</td></tr>
+<tr><td>📂第一小说</td><td class='u'>http://www.dyxs.net</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>速读谷子（优+++）</td><td class='u'>https://www.sudugu.cc</td><td class='g'>小说 书源,✅每日校验</td></tr>
+<tr><td>📂奇人小说网</td><td class='u'>http://www.qirenxing.com</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>⚡📂云轩阁小说网</td><td class='u'>http://www.yunxuange.cc/</td><td class='g'>快速书源 ⚡,通常书源 📂,✅每日校验</td></tr>
+<tr><td>📂言情小说</td><td class='u'>https://m.yqxxs.com</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>📂看书</td><td class='u'>https://www.kanshuw.com</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>📂小说之家</td><td class='u'>http://www.itxtbook.net</td><td class='g'>通常书源 📂,✅每日校验</td></tr>
+<tr><td>📂格格党站</td><td class='u'>https://www.huilingtian.com</td><td class='g'>通常书源 📂,✅每日校验</td></tr>
+<tr><td>🎃笔趣阁🎃#50</td><td class='u'>https://www.conglianhao.com#🎃</td><td class='g'>穿越,刘皇叔,✅每日校验</td></tr>
+<tr><td>📂海马书屋</td><td class='u'>https://www.seahobook.com</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>大唐小说（优+）</td><td class='u'>https://www.dtxsw.com</td><td class='g'>小说 书源,✅每日校验</td></tr>
+<tr><td>📂少年小说网</td><td class='u'>https://www.snxs.org</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>📂品书楼网</td><td class='u'>http://www.pinshulou.com</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>商店小说（优）</td><td class='u'>http://www.16kbook.net</td><td class='g'>小说 书源,✅每日校验</td></tr>
+<tr><td>📂滋滋读书</td><td class='u'>http://www.zzdushu.com</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>📂永久小说</td><td class='u'>http://www.yjxsw.com</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>📚书海阁</td><td class='u'>https://book.washai.net</td><td class='g'>AI,✅每日校验</td></tr>
+<tr><td>⚡📂顶点小说</td><td class='u'>https://www.dingdian888.com</td><td class='g'>快速书源 ⚡,通常书源 📂,✅每日校验</td></tr>
+<tr><td>⚡📂奇塔小说</td><td class='u'>http://www.feishuwx.la</td><td class='g'>快速书源 ⚡,通常书源 📂,✅每日校验</td></tr>
+<tr><td>⚡📂笔趣阁</td><td class='u'>https://www.conglianhao.com/</td><td class='g'>快速书源 ⚡,通常书源 📂,✅每日校验</td></tr>
+<tr><td>🎃笔趣阁🎃#83</td><td class='u'>http://m.bqgcn.com#🎃</td><td class='g'>临时,✅每日校验</td></tr>
+<tr><td>安分短文（优+++）</td><td class='u'>https://www.asianfanfics.com</td><td class='g'>小说 书源,✅每日校验</td></tr>
+<tr><td>书法小说（优+）</td><td class='u'>http://www.sfwx.com/</td><td class='g'>小说 书源,✅每日校验</td></tr>
+<tr><td>📂无限小说</td><td class='u'>https://wuxianbook.com</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>无错小说（优+++）</td><td class='u'>https://www.wcshuba.com</td><td class='g'>小说 书源,✅每日校验</td></tr>
+<tr><td>⚡📂酷书阁小说网</td><td class='u'>https://www.kushuge.com</td><td class='g'>快速书源 ⚡,通常书源 📂,✅每日校验</td></tr>
+<tr><td>小说ABC</td><td class='u'>http://www.xsabc.com</td><td class='g'>✅每日校验</td></tr>
+<tr><td>📂阳光小说</td><td class='u'>http://www.ygzww.com</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>⚡📂爱下书吧</td><td class='u'>http://www.aixiashu.la/</td><td class='g'>小说,✅每日校验</td></tr>
+<tr><td>⚡📂笔趣阁</td><td class='u'>https://m.qbiqus.com</td><td class='g'>快速书源 ⚡,通常书源 📂,✅每日校验</td></tr>
+<tr><td>📂追书网</td><td class='u'>https://www.zhuishu.com</td><td class='g'>通常书源 📂,✅每日校验</td></tr>
+<tr><td>⚡📂笔趣阁</td><td class='u'>https://www.biqvge99.cc/#pb1101</td><td class='g'>快速书源 ⚡,通常书源 📂,✅每日校验</td></tr>
+<tr><td>📂武侠小说</td><td class='u'>https://www.wuxiayue.com</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>📂优美小说网</td><td class='u'>https://m.jcxsyd.com</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>📂精彩小说网</td><td class='u'>https://m.seedjade.com</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>📂五六中文</td><td class='u'>https://www.56yz.com</td><td class='g'>通常书源 📂,✅每日校验</td></tr>
+<tr><td>星星小说</td><td class='u'>http://www.xxtxt.com</td><td class='g'>✅每日校验</td></tr>
+<tr><td>📖御宅屋</td><td class='u'>https://m.yuzhaiwu.asia/#</td><td class='g'>刘皇叔,✅每日校验</td></tr>
+<tr><td>📂玩文小说</td><td class='u'>https://www.wanwx.com</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>📂️圣墟小说</td><td class='u'>http://www.shengxuxu.info</td><td class='g'>通常书源 📂,快速书源 ⚡,✅每日校验</td></tr>
+<tr><td>龙腾小说网</td><td class='u'>https://www.10000api.net</td><td class='g'>小说,✅每日校验</td></tr>
+<tr><td>⚡📂笔趣阁</td><td class='u'>https://m.biquge365.net#</td><td class='g'>快速书源 ⚡,通常书源 📂,✅每日校验</td></tr>
+<tr><td>免费小说🎃#2</td><td class='u'>https://www.quanwenyuedu.io#🎃</td><td class='g'>✅每日校验</td></tr>
+<tr><td>⚡📂免费小说</td><td class='u'>https://www.quanwenyuedu.io</td><td class='g'>快速书源 ⚡,通常书源 📂,✅每日校验</td></tr>
+<tr><td>连城读书</td><td class='u'>http://h5.lc1001.com/</td><td class='g'>小说,✅每日校验</td></tr>
+<tr><td>⚡📂笔趣阁</td><td class='u'>http://www.8biquge.com</td><td class='g'>快速书源 ⚡,通常书源 📂,✅每日校验</td></tr></tbody>
+    </table>
+  </div>
+
+  <footer>
+    本项目仅做技术层面的规则聚合与可用性探测，不存储、不分发任何小说正文；所有书源由第三方用户公开分享，版权归各站点与作者所有。<br>
+    如内容侵犯你的权益，请提交 Issue 或 PR 移除对应条目。
+  </footer>
+</div>
+<script>
+function copyUrl(id, btn) {
+  var text = (document.getElementById(id).textContent || '').trim();
+  var label = btn.textContent;
+  var done = function () { btn.textContent = '已复制'; setTimeout(function () { btn.textContent = label; }, 1500); };
+  var fallback = function () {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.style.position = 'fixed'; ta.style.top = '-1000px';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); done(); } catch (e) { alert('复制失败，请长按链接手动复制'); }
+    document.body.removeChild(ta);
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(text).then(done, fallback);
+  } else {
+    fallback();
+  }
+}
+</script>
+</body>
+</html>
