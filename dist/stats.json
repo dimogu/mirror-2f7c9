@@ -1,12 +1,12 @@
 {
-  "updated": "2026-11-12T10:28:15.196502+08:00",
+  "updated": "2026-11-12T11:07:23.304872+08:00",
   "fresh_days": 7,
   "list_items": 200,
   "fresh_items": 33,
   "downloaded_sources": 3890,
   "blocked": 2103,
   "purged": 0,
-  "blocked_total": 10807,
+  "blocked_total": 12910,
   "blocked_reasons": {
     "keyword:adult": 314,
     "keyword:video_anime_music": 216,
@@ -35,19 +35,19 @@
     "group:特殊": 37,
     "domain:douban.com": 1
   },
-  "library_total": 933,
+  "library_total": 934,
   "state_keep_days": 3,
-  "pruned": 385,
-  "retired": 385,
-  "alive": 605,
-  "stale": 249,
-  "search_verified": 250,
-  "search_skipped": 355,
-  "search_failed_kept": 79,
-  "waf_kept": 94,
-  "output": 605,
+  "pruned": 384,
+  "retired": 384,
+  "alive": 596,
+  "stale": 257,
+  "search_verified": 245,
+  "search_skipped": 351,
+  "search_failed_kept": 81,
+  "waf_kept": 96,
+  "output": 596,
   "by_board": {
-    "shuyuans": 598,
+    "shuyuans": 589,
     "shuyuan": 7
   }
 }
