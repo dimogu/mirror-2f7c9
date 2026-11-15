@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-15T12:58:50.401578+08:00",
+  "updated": "2026-11-15T13:19:59.779898+08:00",
   "fresh_days": 7,
   "list_items": 200,
   "fresh_items": 31,
@@ -8,11 +8,12 @@
   "purged": 0,
   "blocked_total": 23508,
   "blocked_reasons": {
+    "keyword:adult": 315,
     "keyword:official": 112,
     "domain:qq.com": 13,
     "keyword:adult_ambiguous": 48,
-    "keyword:adult": 315,
     "keyword:video_anime_music": 118,
+    "missing_rule:ruleSearch": 1246,
     "type:2": 10,
     "bad_url": 19,
     "type:1": 2,
@@ -22,7 +23,6 @@
     "domain:manga": 6,
     "keyword:live": 1,
     "domain:powenwu": 5,
-    "missing_rule:ruleSearch": 1246,
     "keyword:custom": 5,
     "domain:yushuwu": 10,
     "domain:rousewu": 4,
@@ -30,23 +30,23 @@
     "domain:zongheng.com": 1,
     "domain:porn": 1,
     "domain:banzhu": 1,
-    "missing_rule:ruleContent": 1,
     "type:4": 1,
-    "domain:yaolu": 1
+    "domain:yaolu": 1,
+    "missing_rule:ruleContent": 1
   },
-  "library_total": 786,
+  "library_total": 787,
   "state_keep_days": 3,
-  "pruned": 676,
-  "retired": 676,
-  "alive": 661,
-  "stale": 29,
-  "search_verified": 276,
-  "search_skipped": 385,
-  "search_failed_kept": 96,
-  "waf_kept": 114,
-  "output": 661,
+  "pruned": 675,
+  "retired": 675,
+  "alive": 666,
+  "stale": 35,
+  "search_verified": 274,
+  "search_skipped": 392,
+  "search_failed_kept": 86,
+  "waf_kept": 124,
+  "output": 666,
   "by_board": {
-    "shuyuans": 651,
-    "shuyuan": 10
+    "shuyuans": 658,
+    "shuyuan": 8
   }
 }
