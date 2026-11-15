@@ -35,6 +35,7 @@
   .hint { font-size:13px; color:var(--dim); }
   .warn { margin-top:10px; padding:9px 12px; border-radius:8px; font-size:13px;
     background:rgba(220,60,60,.12); color:#e05b5b; border:1px solid rgba(220,60,60,.3); }
+  [hidden] { display:none !important; }
   .row { display:flex; gap:8px; align-items:center; }
   .row code { flex:1; margin:8px 0; }
   .row button { margin:8px 0; padding:8px 14px; border-radius:8px; border:1px solid rgba(128,128,128,.3);
@@ -43,14 +44,16 @@
   footer { margin-top:32px; font-size:12.5px; color:var(--dim); border-top:1px solid rgba(128,128,128,.15); padding-top:16px; }
 </style>
 </head>
-<body>
+<body data-updated="2026-11-15T08:19:48.503694+08:00">
 <div class="wrap">
   <h1>阅读 App 每日可用书源</h1>
   <div class="sub">自动抓取最近 7 天新分享的书源 → 剔除违规/非文本内容 → 逐条检测可用性<br>
-    每天北京时间 <b>04:30</b> 自动更新（06:30 兜底一次）｜ 最近一次更新：2026-11-15 08:19（刚刚）｜ 近 7 天新分享 32 条<br>
+    每天自动更新（云端定时任务，全天多次心跳检查兜底，不依赖你的电脑）｜
+    最近一次更新：<b id="updated-at">2026-11-15 08:19</b><span id="age" class="hint">（正在计算…）</span>｜ 近 7 天新分享 32 条<br>
     <span class="hint">状态库仅保留最近 3 天内有效数据（本轮清理 706 条）｜
       反爬站点 113 个：站点在线但可能需在 App 内配置 UA/Cookie</span></div>
-  
+  <div class="warn" id="stale-warn" hidden>⚠ 数据已超过 26 小时未更新，定时任务可能未触发；请到仓库 Actions 页面手动运行一次「每日更新书源」。</div>
+  <noscript><div class="hint">页面生成于 2026-11-15 08:19（当时 约 5 小时前）· 启用 JavaScript 可查看实时更新时间</div></noscript>
 
   <div class="cards">
     <div class="card ok"><div class="n">662</div><div class="l">本轮实测通过并输出</div></div>
@@ -178,6 +181,63 @@ function copyUrl(id, btn) {
     fallback();
   }
 }
+
+function p2(n) { return (n < 10 ? '0' : '') + n; }
+
+// 统一按北京时间显示，避免设备时区不同导致时间看起来对不上
+function fmtBeijing(iso) {
+  var d = new Date(iso);
+  if (isNaN(d.getTime())) return iso;
+  var b = new Date(d.getTime() + (480 + d.getTimezoneOffset()) * 60000);
+  return b.getFullYear() + '-' + p2(b.getMonth() + 1) + '-' + p2(b.getDate())
+    + ' ' + p2(b.getHours()) + ':' + p2(b.getMinutes());
+}
+
+function relTime(iso) {
+  var t = new Date(iso).getTime();
+  if (isNaN(t)) return '';
+  var mins = (Date.now() - t) / 60000;
+  if (mins < 5) return '刚刚';
+  if (mins < 60) return Math.floor(mins) + ' 分钟前';
+  if (mins < 1440) return Math.floor(mins / 60) + ' 小时前';
+  return Math.floor(mins / 1440) + ' 天前';
+}
+
+function renderFreshness(iso) {
+  if (!iso) return;
+  var at = document.getElementById('updated-at');
+  var age = document.getElementById('age');
+  var warn = document.getElementById('stale-warn');
+  if (at) at.textContent = fmtBeijing(iso);
+  if (age) {
+    var rel = relTime(iso);
+    age.textContent = rel ? '（' + rel + '）' : '';
+  }
+  if (warn) {
+    var t = new Date(iso).getTime();
+    warn.hidden = isNaN(t) || (Date.now() - t) / 3600000 <= 26;
+  }
+}
+
+(function () {
+  var iso = document.body.getAttribute('data-updated') || '';
+  renderFreshness(iso);
+  setInterval(function () { renderFreshness(iso); }, 60000);
+  // 页面可能挂在仓库根或 dist/ 下，两个相对路径依次尝试；
+  // 即使 HTML 被 CDN 缓存，也能拿到 stats.json 里更新的时间戳。
+  // 本地 file:// 打开时 fetch 会失败，用内嵌时间戳兜底即可。
+  ['dist/stats.json', 'stats.json'].forEach(function (path) {
+    fetch(path + '?t=' + Date.now(), { cache: 'no-store' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (d && d.updated && (!iso || new Date(d.updated) > new Date(iso))) {
+          iso = d.updated;
+          renderFreshness(iso);
+        }
+      })
+      .catch(function () {});
+  });
+})();
 </script>
 </body>
 </html>
