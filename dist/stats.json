@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-18T10:29:52.208329+08:00",
+  "updated": "2026-11-18T10:51:53.143710+08:00",
   "fresh_days": 7,
   "list_items": 200,
   "fresh_items": 32,
@@ -21,30 +21,30 @@
     "type:3": 17,
     "keyword:custom": 5,
     "type:2": 8,
+    "type:1": 2,
+    "domain:comic": 3,
+    "domain:manhua": 4,
+    "domain:manga": 6,
     "domain:powenwu": 5,
     "domain:rousewu": 4,
     "missing_rule:ruleToc": 1,
     "domain:zongheng.com": 1,
-    "domain:manga": 6,
     "domain:porn": 1,
-    "domain:manhua": 4,
-    "domain:banzhu": 1,
-    "domain:comic": 3,
-    "type:1": 2
+    "domain:banzhu": 1
   },
-  "library_total": 864,
+  "library_total": 862,
   "state_keep_days": 3,
-  "pruned": 737,
-  "retired": 737,
-  "alive": 709,
-  "stale": 44,
-  "search_verified": 276,
+  "pruned": 739,
+  "retired": 739,
+  "alive": 711,
+  "stale": 45,
+  "search_verified": 278,
   "search_skipped": 433,
-  "search_failed_kept": 111,
-  "waf_kept": 137,
-  "output": 709,
+  "search_failed_kept": 106,
+  "waf_kept": 138,
+  "output": 711,
   "by_board": {
-    "shuyuans": 698,
-    "shuyuan": 11
+    "shuyuans": 701,
+    "shuyuan": 10
   }
 }
