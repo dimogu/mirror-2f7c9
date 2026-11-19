@@ -1,5 +1,5 @@
 {
-  "updated": "2026-11-19T09:56:08.953592+08:00",
+  "updated": "2026-11-19T10:18:21.620987+08:00",
   "fresh_days": 7,
   "list_items": 200,
   "fresh_items": 39,
@@ -32,19 +32,19 @@
     "domain:porn": 1,
     "domain:banzhu": 1
   },
-  "library_total": 859,
+  "library_total": 860,
   "state_keep_days": 3,
-  "pruned": 745,
-  "retired": 744,
-  "alive": 726,
-  "stale": 25,
-  "search_verified": 279,
-  "search_skipped": 447,
-  "search_failed_kept": 108,
-  "waf_kept": 144,
-  "output": 726,
+  "pruned": 744,
+  "retired": 743,
+  "alive": 715,
+  "stale": 34,
+  "search_verified": 277,
+  "search_skipped": 438,
+  "search_failed_kept": 111,
+  "waf_kept": 137,
+  "output": 715,
   "by_board": {
-    "shuyuans": 713,
+    "shuyuans": 702,
     "shuyuan": 13
   }
 }
